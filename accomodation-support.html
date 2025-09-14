@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accommodation Support - JNU International Students</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #2d3748;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        background-attachment: fixed;
+    }
+
+    /* Skip Link */
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: #000;
+        color: #fff;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 1000;
+    }
+
+    .skip-link:focus {
+        top: 6px;
+    }
+
+    /* Header Styles */
+    .site-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #2d3748;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .logo-img {
+        width: 65px;
+        height: 65px;
+        object-fit: contain;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+        transform: scale(1.1);
+    }
+
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 2.5rem;
+    }
+
+    .nav-menu a {
+        text-decoration: none;
+        color: #4a5568;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 0.5rem 0;
+    }
+
+    .nav-menu a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        transition: width 0.3s ease;
+        border-radius: 2px;
+    }
+
+    .nav-menu a:hover {
+        color: #667eea;
+        transform: translateY(-2px);
+    }
+
+    .nav-menu a:hover::after {
+        width: 100%;
+    }
+
+    .mobile-menu-toggle {
+        display: none;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Main Content */
+    .main-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: #2d3748;
+        border-radius: 20px;
+        margin-bottom: 3rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%);
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+        text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #4a5568;
+        font-weight: 500;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .breadcrumb {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        align-items: center;
+        margin-bottom: 2rem;
+        font-weight: 500;
+        color: #667eea;
+    }
+
+    .breadcrumb a {
+        color: #667eea;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .breadcrumb a:hover {
+        color: #764ba2;
+    }
+
+    .breadcrumb span {
+        color: #4a5568;
+    }
+
+    /* Content Sections */
+    .content-section {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(20px);
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        border: 1px solid rgba(255,255,255,0.3);
+        margin-bottom: 3rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .content-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .content-section h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .section-icon {
+        font-size: 2.5rem;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    }
+
+    .content-section h3 {
+        color: #2d3748;
+        margin: 2rem 0 1rem 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .content-section p {
+        color: #4a5568;
+        margin-bottom: 1.5rem;
+        line-height: 1.7;
+        font-size: 1.1rem;
+    }
+
+    .content-section ul {
+        margin: 1.5rem 0;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .content-section li {
+        background: rgba(102,126,234,0.05);
+        margin: 0.8rem 0;
+        padding: 1.2rem;
+        border-radius: 12px;
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .content-section li:hover {
+        background: rgba(102,126,234,0.1);
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(102,126,234,0.2);
+    }
+
+    .content-section li strong {
+        color: #2d3748;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Warden Types Grid */
+    .warden-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+
+    .warden-card {
+        background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+        padding: 2rem;
+        border-radius: 15px;
+        border: 2px solid rgba(102,126,234,0.2);
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .warden-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(102,126,234,0.3);
+        border-color: #667eea;
+    }
+
+    .warden-card h4 {
+        color: #2d3748;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .warden-card p {
+        color: #4a5568;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    /* Health Facilities Grid */
+    .health-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .health-item {
+        background: rgba(102,126,234,0.05);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+    }
+
+    .health-item:hover {
+        background: rgba(102,126,234,0.1);
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(102,126,234,0.2);
+    }
+
+    .health-item strong {
+        color: #2d3748;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    /* Important Notice Box */
+    .important-notice {
+        background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+        border: 2px solid #667eea;
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .important-notice::before {
+        content: '🆔';
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        font-size: 3rem;
+        opacity: 0.3;
+    }
+
+    .important-notice h4 {
+        color: #2d3748;
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .important-notice p {
+        color: #4a5568;
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+    /* Back Button */
+    .back-button {
+        display: inline-block;
+        margin-bottom: 2rem;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(102,126,234,0.3);
+    }
+
+    .back-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+        background: linear-gradient(135deg, #764ba2, #667eea);
+    }
+
+    /* Footer */
+    .site-footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+        backdrop-filter: blur(20px);
+        color: #2d3748;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .site-footer p {
+        font-weight: 600;
+        margin: 0.5rem 0;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+        .nav-menu {
+            display: none;
+        }
+        
+        .mobile-menu-toggle {
+            display: block;
+        }
+        
+        .hero-content h1 {
+            font-size: 2.2rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+        }
+
+        .content-section {
+            padding: 2rem;
+        }
+
+        .warden-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .health-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .logo-img {
+            width: 55px;
+            height: 55px;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+        }
+
+        .hero-section {
+            padding: 3rem 1.5rem;
+        }
+    }
+
+    /* Glassmorphism enhancements */
+    .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #764ba2, #667eea);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="main-nav">
+      <div class="nav-container">
+        <div class="logo">
+          <img src="logo2.png" alt="ISA JNU Logo" class="logo-img">
+          <span>International Students - JNU</span>
+        </div>
+        <ul class="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="academic-support.html">Academic Support</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-toggle">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span>→</span>
+          <span>Accommodation Support</span>
+        </div>
+        <h1>🏠 Accommodation Support</h1>
+        <p>Complete guidance for your accommodation needs, from hostels to health services at JNU</p>
+      </div>
+    </section>
+
+    <a href="index.html" class="back-button">← Back to Home</a>
+
+    <!-- IHA Information Section -->
+    <section class="content-section">
+      <h2>
+        <span class="section-icon">🏢</span>
+        Inter Hall Administration (IHA)
+      </h2>
+      <p>The IHA (Inter Hall Administration) handles hostels, recreation, health, maintenance etc. Get help with your complete admission process, registration requirements, complete registration process, FRRO, academic resources, and more.</p>
+
+      <h3>🔧 Hostel Warden System</h3>
+      <p>Each hostel has four types of Wardens with distinct portfolios:</p>
+
+      <div class="warden-grid">
+        <div class="warden-card">
+          <h4>1. Senior Warden</h4>
+          <p>Chief executive for welfare, discipline, mess, security etc. Also usually handles Administration portfolio.</p>
+        </div>
+        <div class="warden-card">
+          <h4>2. Warden (Mess)</h4>
+          <p>Looks after hostel mess affairs: quality, bills, service etc.</p>
+        </div>
+        <div class="warden-card">
+          <h4>3. Warden (Health & Recreation)</h4>
+          <p>Responsible for health, hygienic living, and the recreational/common room activities.</p>
+        </div>
+        <div class="warden-card">
+          <h4>4. Warden (Maintenance & Sanitation)</h4>
+          <p>Oversees repairs, cleanliness, sanitation, maintenance of hostel infrastructure.</p>
+        </div>
+      </div>
+
+      <h3>👥 Student Representation</h3>
+      <ul>
+        <li>
+          <strong>Hostel President:</strong>
+          Elected by residents of each hostel/wing, serving as the liaison between students and the administration.
+        </li>
+        <li>
+          <strong>Hostel Student Committee:</strong>
+          Presidents and other student representatives to raise and address student queries, feedback, issues, and represent in IHA meetings.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Health Centre Section -->
+    <section class="content-section">
+      <h2>
+        <span class="section-icon">🏥</span>
+        Health Centre Services
+      </h2>
+      
+      <h3>🩺 Key Facilities</h3>
+      <div class="health-grid">
+        <div class="health-item">
+          <strong>OPD Consultations:</strong>
+          General + Specialist consultations, including internal medicine, ENT, ophthalmology, skin, dentistry & more.
+        </div>
+        <div class="health-item">
+          <strong>Laboratory Services:</strong>
+          Routine blood, biochemistry, microbiology tests.
+        </div>
+        <div class="health-item">
+          <strong>Pharmacy:</strong>
+          Free medicines for students; emergency meds, injections, first-aid included.
+        </div>
+        <div class="health-item">
+          <strong>Ambulance Services:</strong>
+          Available 24-hours (ICU ambulance + patient transport vehicle).
+        </div>
+        <div class="health-item">
+          <strong>Routine Services:</strong>
+          Immunization (tetanus), medical examinations for academic purposes.
+        </div>
+      </div>
+
+      <div class="important-notice">
+        <h4>🆔 Health Card / ID Booklet</h4>
+        <p>Students must register for OPD services by submitting their student semester folio, photograph and any other demanded documents to obtain their health card for accessing medical services.</p>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="content-section">
+      <h2>
+        <span class="section-icon">📞</span>
+        Need More Help?
+      </h2>
+      <p>For detailed assistance with accommodation, documentation, or health services, contact the ISA office:</p>
+      <ul>
+        <li>
+          <strong>📧 Email:</strong>
+          jnuisaofficial@gmail.com
+        </li>
+        <li>
+          <strong>📱 WhatsApp:</strong>
+         +9779843791496 (President)
+        </li>
+        <li>
+          <strong>📍 Office Location:</strong>
+          First Floor, Teflas (Opposite Narmada Hostel), JNU Campus
+        </li>
+        <li>
+          <strong>⏰ Office Hours:</strong>
+          Monday - Friday, 10:00 AM - 5:00 PM
+        </li>
+      </ul>
+    </section>
+
+    <!-- 24/7 Support Section -->
+    <section class="content-section">
+      <h2>
+        <span class="section-icon">🌟</span>
+        24/7 Support
+      </h2>
+      <p style="text-align: center; font-size: 1.2rem; color: #667eea; font-weight: 600;">They are ready to help you 24/7 for any issues related to mess, rooms, facilities etc.</p>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2025 JNU International Students Association. All rights reserved.</p>
+    <p>Serving 600+ international students from 50+ countries since 1985</p>
+  </footer>
+</body>
+</html>
