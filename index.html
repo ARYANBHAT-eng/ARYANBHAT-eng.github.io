@@ -1,86 +1,575 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>International Students Association - Jawaharlal Nehru University</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>International Students - Jawaharlal Nehru University</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #2d3748;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        background-attachment: fixed;
+    }
+
+    /* Skip Link */
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: #000;
+        color: #fff;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 1000;
+    }
+
+    .skip-link:focus {
+        top: 6px;
+    }
+
+    /* Header Styles */
+    .site-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #2d3748;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .logo-img {
+        width: 65px;
+        height: 65px;
+        object-fit: contain;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+        transform: scale(1.1);
+    }
+
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 2.5rem;
+    }
+
+    .nav-menu a {
+        text-decoration: none;
+        color: #4a5568;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 0.5rem 0;
+    }
+
+    .nav-menu a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        transition: width 0.3s ease;
+        border-radius: 2px;
+    }
+
+    .nav-menu a:hover {
+        color: #667eea;
+        transform: translateY(-2px);
+    }
+
+    .nav-menu a:hover::after {
+        width: 100%;
+    }
+
+    .mobile-menu-toggle {
+        display: none;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Main Content */
+    .main-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        text-align: center;
+        padding: 5rem 2rem;
+        background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: #2d3748;
+        border-radius: 20px;
+        margin-bottom: 3rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%);
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+        text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .hero-content p {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        color: #4a5568;
+        font-weight: 500;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: rgba(255,255,255,0.9);
+        color: #667eea;
+        border: 2px solid #667eea;
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-primary:hover, .btn-secondary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #764ba2, #667eea);
+    }
+
+    .btn-secondary:hover {
+        background: #667eea;
+        color: white;
+    }
+
+    /* Features Grid */
+    .features-grid {
+        margin-bottom: 3rem;
+    }
+
+    .features-grid h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+    }
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+    }
+
+    .feature-card {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(20px);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(102,126,234,0.2);
+    }
+
+    .feature-card .icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .feature-card h3 {
+        color: #2d3748;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+    .feature-card p {
+        color: #4a5568;
+        margin-bottom: 1.5rem;
+        line-height: 1.7;
+    }
+
+    .card-link {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(102,126,234,0.3);
+    }
+
+    .card-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+        background: linear-gradient(135deg, #764ba2, #667eea);
+    }
+
+    /* Contact Section */
+    .contact-section {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(20px);
+        padding: 4rem 3rem;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 2rem;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .contact-section h2 {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2.5rem;
+        font-size: 2.2rem;
+        font-weight: 800;
+    }
+
+    .contact-info p {
+        margin: 1.2rem 0;
+        font-size: 1.2rem;
+        color: #4a5568;
+        font-weight: 500;
+        padding: 0.8rem;
+        background: rgba(102,126,234,0.05);
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+    }
+
+    .contact-info p:hover {
+        background: rgba(102,126,234,0.1);
+        transform: translateX(5px);
+    }
+
+    /* Footer */
+    .site-footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+        backdrop-filter: blur(20px);
+        color: #2d3748;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .site-footer p {
+        font-weight: 600;
+        margin: 0.5rem 0;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+        .nav-menu {
+            display: none;
+        }
+        
+        .mobile-menu-toggle {
+            display: block;
+        }
+        
+        .hero-content h1 {
+            font-size: 2.2rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .cards-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .logo-img {
+            width: 55px;
+            height: 55px;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+        }
+
+        .hero-section {
+            padding: 3rem 1.5rem;
+        }
+
+        .contact-section {
+            padding: 3rem 2rem;
+        }
+    }
+
+    /* Glassmorphism enhancements */
+    .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #764ba2, #667eea);
+    }
+  </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="main-nav">
+      <div class="nav-container">
+        <div class="logo">
+          <img src="logo2.png" alt="ISA JNU Logo" class="logo-img">
+          <span>International Students - JNU</span>
+        </div>
+        <ul class="nav-menu">
+          <li><a href="#main-content">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="jnu-isa-webpage.html">Academic Support</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-toggle">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="main-content">
     
-    <header class="site-header">
-        <nav class="main-nav">
-            <div class="nav-container">
-                <div class="logo">
-                    <div class="logo-placeholder">🏛️</div>
-                    <span>International Students Association</span>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#events">Events</a></li>
-                    <li><a href="#resources">Resources</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <button class="mobile-menu-toggle">☰</button>
-            </div>
-        </nav>
-    </header>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Good Morning! Welcome to JNU International Students Section</h1>
+        <p>Your gateway to academic excellence and cultural diversity at Jawaharlal Nehru University</p>
+        <div class="cta-buttons">
+          <a href="#services" class="btn-primary">Explore Services</a>
+          <a href="#contact" class="btn-secondary">Get Support</a>
+        </div>
+      </div>
+    </section>
 
-    <main id="main-content" class="main-content">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1>Welcome to JNU International Students Association</h1>
-                <p>Your gateway to academic excellence and cultural diversity at Jawaharlal Nehru University</p>
-                <div class="cta-buttons">
-                    <a href="#services" class="btn-primary">Join ISA</a>
-                    <a href="#resources" class="btn-secondary">Student Resources</a>
-                </div>
-            </div>
-        </section>
+    <!-- Features Grid -->
+    <section class="features-grid" id="services">
+      <h2>How We Support You</h2>
+      <div class="cards-container">
+        
+        <div class="feature-card">
+          <div class="icon">🎓</div>
+          <h3>Academic Support</h3>
+          <p>Get comprehensive help with course selection, study groups, and academic resources tailored for international students.</p>
+          <a href="academic-support.html" class="card-link">Learn More</a>
+        </div>
 
-        <!-- Features Grid -->
-        <section class="features-grid" id="services">
-            <h2>How We Support You</h2>
-            <div class="cards-container">
-                <div class="feature-card">
-                    <div class="icon">🎓</div>
-                    <h3>Academic Support</h3>
-                    <p>Get help with course selection, study groups, and academic resources tailored for international students.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">🌍</div>
-                    <h3>Cultural Events</h3>
-                    <p>Participate in multicultural festivals, networking events, and celebrate diversity together.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">🏠</div>
-                    <h3>Housing Assistance</h3>
-                    <p>Find accommodation options and connect with fellow international students for shared living.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">📋</div>
-                    <h3>Visa & Legal Help</h3>
-                    <p>Navigate visa requirements, documentation, and legal procedures with expert guidance.</p>
-                </div>
-            </div>
-        </section>
+         <div class="feature-card">
+          <div class="icon">📋</div>
+          <h3>Fee Structure & Documentation</h3>
+          <p>Navigate visa requirements, documentation, and legal procedures with expert guidance from our team.</p>
+          <a href="fee-structure.html" class="card-link">Get Info</a>
+        </div>
 
-        <!-- Contact Section -->
-        <section class="contact-section" id="contact">
-            <h2>Get In Touch</h2>
-            <div class="contact-info">
-                <p>📧 Email: isa@jnu.ac.in</p>
-                <p>📱 WhatsApp: +91-XXXXXXXXXX</p>
-                <p>📍 Office: Student Activity Centre, JNU Campus</p>
-            </div>
-        </section>
-    </main>
+         <div class="feature-card">
+          <div class="icon">🏠</div>
+          <h3>Accomodation Support</h3>
+          <p>Get help with your complete admission process, registration requirements, complete registration process, FRRO, academic resources,etc</p>
+          <a href="accomodation-support.html" class="card-link">Meet Us</a>
+        </div>
 
-    <footer class="site-footer">
-        <p>&copy; 2025 JNU International Students Association. All rights reserved.</p>
-    </footer>
+        <div class="feature-card">
+          <div class="icon">🌍</div>
+          <h3>Cultural Events</h3>
+          <p>Participate in multicultural festivals, networking events, and celebrate diversity together with students from 50+ countries.</p>
+          <a href="cultural-events.html" class="card-link">Join Events</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="icon">📸</div>
+          <h3>Student Gallery</h3>
+          <p>Showcase memorable moments, cultural highlights, and campus life through a collection of vibrant student photos.</p>
+          <a href="student-gallery.html" class="card-link">View Gallery</a>
+        </div>
+
+       
+        <div class="feature-card">
+          <div class="icon">🤝</div>
+          <h3>About ISA</h3>
+          <p>Learn about the International Students Association, our mission, executive team, and how to get involved in our community.</p>
+          <a href="about-isa.html" class="card-link">Meet Us</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+      <h2>Get In Touch</h2>
+      <div class="contact-info">
+        <p>📧 Email: jnuisaofficial@gmail.com</p>
+        <p>📱 WhatsApp: +9779843791496 (President)</p>
+        <p>📍 Office: First Floor, Teflas (Opposite Narmada Hostel), JNU Campus</p>
+        <p>⏰ Office Hours: Monday - Friday, 10:00 AM - 5:00 PM</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2025 JNU International Students Association. All rights reserved.</p>
+    <p>Serving 600+ international students from 50+ countries since 1985</p>
+  </footer>
 </body>
 </html>
